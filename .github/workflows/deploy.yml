@@ -1,0 +1,30 @@
+name: Deploy to Seedbox
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: narvi.whatbox.ca
+          username: jackbr4
+          key: ${{ secrets.SEEDBOX_SSH_KEY }}
+          script: |
+            set -e
+            mkdir -p ~/apps/lime-tree-agent
+            cd ~/apps/lime-tree-agent
+            if [ ! -d ".git" ]; then
+              echo "First deploy — cloning repo..."
+              git clone https://github.com/jackbr4/lime-tree-agent.git .
+            else
+              echo "Pulling latest code..."
+              git pull origin main
+            fi
+            echo "Installing dependencies..."
+            pip install -r requirements.txt --user
+            echo "Deploy complete."

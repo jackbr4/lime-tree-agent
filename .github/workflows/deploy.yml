@@ -26,5 +26,5 @@ jobs:
               git pull origin main
             fi
             echo "Installing dependencies..."
-            pip install -r requirements.txt --user
+            pip3 install -r requirements.txt --user
             echo "Deploy complete."

@@ -26,5 +26,7 @@ jobs:
               git pull origin main
             fi
             echo "Installing dependencies..."
-            pip3 install -r requirements.txt --user
+            curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+            python3 get-pip.py --user
+            ~/.local/bin/pip3 install -r requirements.txt --user
             echo "Deploy complete."

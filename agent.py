@@ -83,13 +83,27 @@ def run_agent() -> str:
     return briefing
 
 
+def deliver_briefing(briefing: str):
+    """
+    Save and deliver the briefing.
+    Extracted so the webhook can call it separately from main().
+    """
+    with open("latest_briefing.txt", "w") as f:
+        f.write(briefing)
+    print("Briefing saved to latest_briefing.txt")
+
+    print("Writing briefing to Home Assistant...")
+    success = set_briefing(briefing)
+    if success:
+        print("Briefing written to HA successfully.")
+    else:
+        print("Warning: one or more HA writes failed — check logs.")
+
+
 def main():
     """
     Entry point when running directly.
     Runs the agent and prints the briefing to stdout.
-
-    In Phase 5 we will extend this to also deliver the briefing
-    (email, HA notification, etc.) — but printing is enough for now.
     """
     print("\n" + "="*60)
     print("LIME TREE AGENT — STARTING RUN")
@@ -103,18 +117,7 @@ def main():
     print(briefing)
     print("\n" + "="*60)
 
-    # Also write the latest briefing to a file so we can inspect it
-    # and later use it for delivery (Phase 5)
-    with open("latest_briefing.txt", "w") as f:
-        f.write(briefing)
-    print("Briefing saved to latest_briefing.txt")
-
-    print("Writing briefing to Home Assistant...")
-    success = set_briefing(briefing)
-    if success:
-        print("Briefing written to HA successfully.")
-    else:
-        print("Warning: one or more HA writes failed — check logs.")
+    deliver_briefing(briefing)
 
 
 if __name__ == "__main__":

@@ -38,4 +38,12 @@ jobs:
             echo "Installing dependencies..."
             ./venv/bin/pip install -r requirements.txt
 
+            echo "Restarting webhook server..."
+            pkill -f "python.*webhook.py" || true
+            sleep 1
+            mkdir -p logs
+            nohup ./venv/bin/python webhook.py > logs/webhook.log 2>&1 &
+            sleep 2
+            echo "Webhook server started."
+
             echo "Deploy complete."

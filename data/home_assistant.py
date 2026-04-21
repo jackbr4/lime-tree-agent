@@ -148,10 +148,10 @@ def get_tree_location() -> str:
 
 def set_briefing(briefing_text: str) -> bool:
     """
-    Write the briefing to HA across four input_text entities.
+    Write the briefing to HA across six input_text entities.
 
     HA caps input_text at 255 characters each, so we split the
-    briefing into four chunks and write them to four separate
+    briefing into six chunks and write them to six separate
     entities. The dashboard card stitches them back together.
 
     Returns True if all writes succeeded, False if any failed.
@@ -161,13 +161,15 @@ def set_briefing(briefing_text: str) -> bool:
         "input_text.lime_tree_briefing_2",
         "input_text.lime_tree_briefing_3",
         "input_text.lime_tree_briefing_4",
+        "input_text.lime_tree_briefing_5",
+        "input_text.lime_tree_briefing_6",
     ]
 
     # Split briefing into 255-char chunks
     chunks = [briefing_text[i:i+255] for i in range(0, len(briefing_text), 255)]
 
-    # Pad to 4 chunks so unused entities get cleared
-    while len(chunks) < 4:
+    # Pad to 6 chunks so unused entities get cleared
+    while len(chunks) < 6:
         chunks.append("")
 
     success = True

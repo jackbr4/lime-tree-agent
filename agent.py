@@ -108,7 +108,7 @@ def deliver_briefing(briefing: str):
     notified = send_notification(
         title="🌳 Lime Tree Update",
         message=second_line,
-        url="/lovelace/home"
+        url="/dashboard-test/0"
     )
     if notified:
         print("Notification sent to iPhone successfully.")

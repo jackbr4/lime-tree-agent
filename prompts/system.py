@@ -228,13 +228,19 @@ CURRENT SENSOR READINGS:
 
 ---
 
-MOISTURE HISTORY (last 7 days, twice-daily samples):
+MOISTURE HISTORY (last 30 days, three-times-daily samples):
 {format_history(histories['moisture'], 'moisture', '%')}
 
 ---
 
-CONDUCTIVITY HISTORY (last 7 days, twice-daily samples):
+CONDUCTIVITY HISTORY (last 30 days, three-times-daily samples):
 {format_history(histories['conductivity'], 'conductivity', 'µS/cm')}
+
+NOTE ON HISTORY: Sensor history is sampled at 12-hour windows and may not
+reflect events (watering, fertilizing) that occurred within the last few
+hours. If current moisture or conductivity readings appear inconsistent
+with recent history, a very recent watering or fertilizing is the likely
+explanation — reason accordingly and do not flag this as an anomaly.
 
 ---
 

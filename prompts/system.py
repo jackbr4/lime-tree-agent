@@ -174,7 +174,7 @@ Do not invent trends from insufficient data.
 Produce the briefing in exactly this format. Keep it tight — the owner
 reads this in under 90 seconds.
 
-🌳 LIME TREE BRIEFING — [DATE]
+🌳 LIME TREE BRIEFING — [DATE] [TIME]
 📍 [INDOOR/OUTDOOR] · [SEASON] · [ONE-LINE WEATHER SUMMARY]
 
 OVERALL STATUS: [one sentence]
@@ -207,7 +207,8 @@ def build_user_prompt(plant_data: dict, histories: dict, weather: dict, tree_loc
     """
     Assemble live data for this run.
     """
-    from datetime import date
+    from datetime import datetime
+    now = datetime.now()
 
     season = get_season()
 
@@ -216,7 +217,8 @@ Please produce today's lime tree briefing based on the following data.
 
 PLACEMENT: {tree_location.upper()}
 SEASON: {season}
-TODAY: {date.today().strftime("%A, %d %B %Y")}
+TODAY: {now.strftime("%A, %d %B %Y")}
+TIME: {now.strftime("%H:%M")}
 
 ---
 

@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from data.home_assistant import get_plant_data, get_sensor_histories, get_tree_location, set_briefing
+from data.home_assistant import get_plant_data, get_sensor_histories, get_tree_location, set_briefing, send_notification
 from data.weather import get_weather
 from prompts.system import build_system_prompt, build_user_prompt
 
@@ -98,6 +98,22 @@ def deliver_briefing(briefing: str):
         print("Briefing written to HA successfully.")
     else:
         print("Warning: one or more HA writes failed — check logs.")
+
+    print("Sending notification to iPhone...")
+    # Use second line of briefing (location/season/weather summary)
+    # as the notification preview — concise and useful at a glance
+    lines = briefing.split("\n")
+    second_line = lines[1] if len(lines) > 1 else lines[0]
+
+    notified = send_notification(
+        title="🌳 Lime Tree Update",
+        message=second_line,
+        url="/lovelace/home"
+    )
+    if notified:
+        print("Notification sent to iPhone successfully.")
+    else:
+        print("Warning: notification could not be sent.")
 
 
 def main():

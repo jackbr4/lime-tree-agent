@@ -186,6 +186,39 @@ def set_briefing(briefing_text: str) -> bool:
     return success
 
 
+def send_notification(title: str, message: str, url: str = "/lovelace/home") -> bool:
+    """
+    Send a push notification to Brendan's iPhone only.
+
+    Uses notify.mobile_app_brendans_iphone so only Brendan's
+    device receives the alert, not other household members.
+
+    The url parameter sets which dashboard opens when the
+    notification is tapped — defaults to the Home dashboard.
+
+    Returns True if successful, False if the call failed.
+    """
+    endpoint = f"{HA_URL}/api/services/notify/mobile_app_brendans_iphone"
+    payload = {
+        "title": title,
+        "message": message,
+        "data": {
+            "url": url,
+            "push": {
+                "sound": "default"
+            }
+        }
+    }
+
+    try:
+        response = httpx.post(endpoint, headers=HEADERS, json=payload, timeout=10)
+        response.raise_for_status()
+        return True
+    except Exception as e:
+        print(f"Warning: could not send HA notification: {e}")
+        return False
+
+
 # This block only runs when you execute this file directly (not when imported).
 # It's a quick way to test the data fetcher in isolation.
 if __name__ == "__main__":
